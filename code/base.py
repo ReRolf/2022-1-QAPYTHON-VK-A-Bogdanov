@@ -42,14 +42,12 @@ class BaseCase:
         query_password.send_keys(password)
         query_password.send_keys(Keys.ENTER)
         self.find(basic_locators.SITE_IS_LOADED_LOCATOR)
-        return self.find(basic_locators.SITE_IS_LOADED_LOCATOR).is_displayed()
 
     def logout(self):
         self.login()
         self.click(basic_locators.USER_BUTTON_LOCATOR)
         self.click(basic_locators.LOGOUT_BUTTON_LOCATOR)
         self.find(basic_locators.LOGIN_BUTTON_LOCATOR)
-        return self.find(basic_locators.LOGIN_BUTTON_LOCATOR).is_displayed()
 
     def edit(self):
         self.login()
@@ -72,6 +70,5 @@ class BaseCase:
 
     def following(self, locator_button, locator):
         self.login()
-        self.find(locator_button).click()
+        self.click(locator_button)
         self.find(locator)
-        return self.find(locator).is_displayed()
