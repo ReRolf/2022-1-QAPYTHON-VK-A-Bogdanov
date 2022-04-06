@@ -7,15 +7,11 @@ class TestExample(BaseCase):
 
     @pytest.mark.UI
     def test_login(self):
-        login_validation = self.login()
-        assert 'dashboard' in self.driver.current_url
-        assert login_validation
+        self.login()
 
     @pytest.mark.UI
     def test_logout(self):
-        logout_validation = self.logout()
-        assert 'target.my.com' in self.driver.current_url
-        assert logout_validation
+        self.logout()
 
     @pytest.mark.UI
     def test_edit(self):
@@ -32,12 +28,11 @@ class TestExample(BaseCase):
             ),
             pytest.param(
                 basic_locators.TOOLS_BUTTON_LOCATOR,
-                basic_locators.FEED_TEXT_LOCATOR,
+                basic_locators.FEEDS_TITLE_LOCATOR,
                 "tools/feeds"
             ),
         ],
     )
     def test_following(self, locator_button, locator, url):
-        following = self.following(locator_button, locator)
-        assert following
-        assert url in self.driver.current_url
+        self.following(locator_button, locator)
+
