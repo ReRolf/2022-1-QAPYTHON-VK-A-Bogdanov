@@ -1,5 +1,4 @@
-import time
-
+import allure
 from base import BaseCase
 from ui.pages.login_page import LoginPage
 from ui.pages.campaign_page import CampaignPage
@@ -7,6 +6,9 @@ from selenium.webdriver.common.by import By
 from ui.pages.audience_page import AudiencePage
 
 
+@allure.description(
+    """These are negative tests on login"""
+)
 class TestNegative(BaseCase):
     def test_email(self):
         login = LoginPage(self.driver)
@@ -19,11 +21,13 @@ class TestNegative(BaseCase):
         assert self.driver.find_element(By.XPATH, "//div[@class = 'formMsg js_form_msg']")
         assert 'https://account.my.com/login/?error_code' in self.driver.current_url
 
-
+@allure.description(
+    """These are tests on campaign creation"""
+)
 class TestCampaign(BaseCase):
-    def test_campaign_create(self):
+    def test_campaign_create(self, credentials):
         login = LoginPage(self.driver)
-        login.login('bingodingo365@gmail.com', 'W9pale3K!')
+        login.login(*credentials)
         campaign = CampaignPage(self.driver)
         url = "https://taucetistation.org/"
         title = 'Space Station 13'
@@ -37,17 +41,19 @@ class TestCampaign(BaseCase):
         campaign.campaign_create(url, title, age, countries, date_from, date_to, daily_budget, total_budget, photo_path)
         campaign.check_campaign_detailed(url, title, age, countries, date_from, date_to, daily_budget, total_budget)
 
-
+@allure.description(
+    """These are tests on segment creation"""
+)
 class TestSegment(BaseCase):
-    def test_segment_create(self):
+    def test_segment_create(self, credentials):
         login = LoginPage(self.driver)
-        login.login('bingodingo365@gmail.com', 'W9pale3K!')
+        login.login(*credentials)
         segment = AudiencePage(self.driver)
         segment.segment_create()
         assert self.driver.find_element(By.XPATH,"//*[text() = 'SS13 segment']")
 
-    def test_segment_delete(self):
+    def test_segment_delete(self, credentials):
         login = LoginPage(self.driver)
-        login.login('bingodingo365@gmail.com', 'W9pale3K!')
+        login.login(*credentials)
         segment = AudiencePage(self.driver)
         segment.segment_delete()
