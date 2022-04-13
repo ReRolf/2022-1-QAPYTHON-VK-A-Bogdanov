@@ -1,5 +1,3 @@
-import time
-
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
 from ui.pages.dashboard_page import DashboardPage

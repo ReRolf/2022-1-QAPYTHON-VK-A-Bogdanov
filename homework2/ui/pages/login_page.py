@@ -7,6 +7,7 @@ from ui.pages.dashboard_page import DashboardPage
 class LoginPage(BasePage):
     locators = basic_locators.LoginPageLocators()
 
+    @pytest.fixture()
     def login(self, user, password):
         self.click(self.locators.LOGIN_BUTTON_LOCATOR)
         self.find(self.locators.QUERY_LOCATOR_EMAIL).send_keys(user)
