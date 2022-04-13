@@ -2,6 +2,7 @@ from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 from ui.pages.dashboard_page import DashboardPage
+import pytest
 
 
 class LoginPage(BasePage):
