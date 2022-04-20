@@ -1,9 +1,13 @@
+import os
 import allure
+import pytest
 from base import BaseCase
 from ui.pages.login_page import LoginPage
 from ui.pages.campaign_page import CampaignPage
 from selenium.webdriver.common.by import By
 from ui.pages.audience_page import AudiencePage
+from ui.locators import basic_locators
+
 
 
 @allure.description(
@@ -13,19 +17,23 @@ class TestNegative(BaseCase):
     def test_email(self):
         login = LoginPage(self.driver)
         login.login('qwerty', 'password')
-        assert self.driver.find_element(By.XPATH, "//div[contains(@class, 'notify-module-error')]")
+        assert login.find(basic_locators.FailureTests.EMAIL_LOGIN_FAILURE_LOCATOR)
 
     def test_password(self):
         login = LoginPage(self.driver)
         login.login('valid_email@mail.ru', 'password')
-        assert self.driver.find_element(By.XPATH, "//div[@class = 'formMsg js_form_msg']")
-        assert 'https://account.my.com/login/?error_code' in self.driver.current_url
+        assert login.find(basic_locators.FailureTests.PASSWORD_LOGIN_FAILURE_LOCATOR)
+
 
 @allure.description(
     """These are tests on campaign creation"""
 )
 class TestCampaign(BaseCase):
-    def test_campaign_create(self, credentials):
+    @pytest.fixture()
+    def file_path(self, repo_root):
+        return os.path.join(repo_root, 'user_data', 'image.jpg')
+
+    def test_campaign_create(self, credentials, file_path):
         login = LoginPage(self.driver)
         login.login(*credentials)
         campaign = CampaignPage(self.driver)
@@ -37,9 +45,10 @@ class TestCampaign(BaseCase):
         date_to = '22.04.2022'
         daily_budget = '100'
         total_budget = '200'
-        photo_path = "/home/rolf/PycharmProject/project2/homework2/user_data/image.jpg"
-        campaign.campaign_create(url, title, age, countries, date_from, date_to, daily_budget, total_budget, photo_path)
+        campaign.campaign_create(url, title, age, countries, date_from, date_to, daily_budget, total_budget, file_path)
+        campaign.campaign_create(url, title, age, countries, date_from, date_to, daily_budget, total_budget, file_path)
         campaign.check_campaign_detailed(url, title, age, countries, date_from, date_to, daily_budget, total_budget)
+
 
 @allure.description(
     """These are tests on segment creation"""
@@ -50,10 +59,6 @@ class TestSegment(BaseCase):
         login.login(*credentials)
         segment = AudiencePage(self.driver)
         segment.segment_create()
-        assert self.driver.find_element(By.XPATH,"//*[text() = 'SS13 segment']")
-
-    def test_segment_delete(self, credentials):
-        login = LoginPage(self.driver)
-        login.login(*credentials)
+        assert segment.find(segment.locators.SEGMENT_CREATED_LOCATOR)
         segment = AudiencePage(self.driver)
         segment.segment_delete()
