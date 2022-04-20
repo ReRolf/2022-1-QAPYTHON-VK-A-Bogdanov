@@ -1,6 +1,11 @@
 from selenium.webdriver.common.by import By
 
 
+class FailureTests:
+    EMAIL_LOGIN_FAILURE_LOCATOR = (By.XPATH, "//div[contains(@class, 'notify-module-error')]")
+    PASSWORD_LOGIN_FAILURE_LOCATOR = (By.XPATH, "//div[@class = 'formMsg js_form_msg']")
+
+
 class LoginPageLocators:
     QUERY_LOCATOR_EMAIL = (By.NAME, 'email')
     QUERY_LOCATOR_PASS = (By.NAME, 'password')
@@ -93,3 +98,4 @@ class AudiencePageLocators(BasePageLocators):
     SITE_RELOADED_LOCATOR = (By.XPATH, "//div[@class = 'segments-list']")
     DELETE_X_BUTTON_LOCATOR = (By.XPATH, "//span[contains(@class, 'icon-cross cells-module-removeCell')]")
     DELETE_SEGMENT_LOCATOR = (By.XPATH, "//button[@data-class-name='General']")
+    SEGMENT_CREATED_LOCATOR = (By.XPATH, "//*[text() = 'SS13 segment']")
