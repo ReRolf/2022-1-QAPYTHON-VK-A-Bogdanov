@@ -9,6 +9,13 @@ from ui.fixtures import *
 def repo_root():
     return os.path.abspath(os.path.join(__file__, os.path.pardir))
 
+@pytest.fixture(scope='session')
+def credentials(repo_root):
+    with open(os.path.join(repo_root, 'user_data', 'logpass.txt'), 'r') as f:
+        user = f.readline().strip()
+        password = f.readline().strip()
+    return user, password
+
 
 @pytest.fixture(scope='session')
 def base_temp_dir():
