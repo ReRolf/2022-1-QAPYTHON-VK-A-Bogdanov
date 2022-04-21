@@ -20,6 +20,7 @@ class BasePageLocators:
 
 
 class DashboardPageLocators(BasePageLocators):
+    CREATE_CAMPAIGN_HREF_LOCATOR = (By.XPATH, "//a[@href='/campaign/new']")
     CREATE_CAMPAIGN_BUTTON_LOCATOR = (By.XPATH, "//div[contains(@class, 'dashboard-module-createButtonWrap')]/div")
     CREATE_CAMPAIGN_LOCATOR = (By.XPATH, "//a[@href = '/campaign/new']")
     PAGE_IS_LOADED_LOCATOR = (By.XPATH, "//div[@data-id='dragHandler']")
