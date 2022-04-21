@@ -2,12 +2,17 @@ import os
 import sys
 import shutil
 import logging
+
+from base import BaseCase
 from ui.fixtures import *
 
 
+def pytest_addoption(parser):
+    parser.addoption('--selenoid', action='store_true')
 @pytest.fixture(scope='session')
 def repo_root():
     return os.path.abspath(os.path.join(__file__, os.path.pardir))
+
 
 @pytest.fixture(scope='session')
 def credentials(repo_root):
@@ -48,3 +53,12 @@ def logger(base_temp_dir):
 
     for handler in log.handlers:
         handler.close()
+
+@pytest.fixture(scope='session')
+def config(request):
+    if request.config.getoption('--selenoid'):
+        selenoid = 'http://127.0.0.1:4444/wd/hub'
+    else:
+        selenoid = None
+    return {'selenoid': selenoid}
+
