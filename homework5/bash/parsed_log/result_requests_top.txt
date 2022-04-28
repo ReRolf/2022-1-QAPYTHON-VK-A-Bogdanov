@@ -1,0 +1,21 @@
+[1mTop 10 requests:(B[m
+1 . URL: /administrator/index.php 
+   Requests: 103932
+2 . URL: /apache-log/access.log 
+   Requests: 26336
+3 . URL: / 
+   Requests: 6940
+4 . URL: /templates/_system/css/general.css 
+   Requests: 4980
+5 . URL: /robots.txt 
+   Requests: 3199
+6 . URL: http://almhuette-raith.at/administrator/index.php 
+   Requests: 2356
+7 . URL: /favicon.ico 
+   Requests: 2201
+8 . URL: /wp-login.php 
+   Requests: 1644
+9 . URL: /administrator/ 
+   Requests: 1563
+10 . URL: /templates/jp_hotel/css/template.css 
+   Requests: 1287

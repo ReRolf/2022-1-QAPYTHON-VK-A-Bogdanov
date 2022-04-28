@@ -1,0 +1,16 @@
+[1mTop 5 ip by number of requests with (5XX) error(B[m
+
+~ Ip: 189.217.45.73
+~ Requests: 225
+
+~ Ip: 82.193.127.15
+~ Requests: 4
+
+~ Ip: 91.210.145.36
+~ Requests: 3
+
+~ Ip: 198.38.94.207
+~ Requests: 2
+
+~ Ip: 195.133.48.198
+~ Requests: 2

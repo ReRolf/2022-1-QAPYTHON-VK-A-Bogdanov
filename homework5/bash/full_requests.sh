@@ -3,7 +3,8 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 LOG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 LOG_FILE="$LOG_DIR"/access.log
-RESULT="$LOG_DIR"/result.txt
+mkdir -p "$LOG_DIR"/parsed_log
+RESULT="$LOG_DIR"/parsed_log/FULL_RESULT.txt
 
 printf '%.s─' $(seq 1 $(tput cols)) > "$RESULT"
 echo -n "${bold}Total Requests:${normal}" >> "$RESULT"
@@ -29,5 +30,3 @@ echo -e "\n${bold}Top 5 ip by number of requests with (5XX) error${normal}" >> "
 awk '{if ($9 ~ /5../) print $1}' "$LOG_FILE" | sort -t "." -rn | uniq -c | sort -rn \
 | awk '{printf "\n~ Ip: %s\n~ Requests: %d\n", $2, $1} NR==5{exit}' >> "$RESULT"
 printf '%.s─' $(seq 1 $(tput cols)) >> "$RESULT"
-
-
