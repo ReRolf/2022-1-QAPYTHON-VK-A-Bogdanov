@@ -1,7 +1,9 @@
-import os
-import json
 import argparse
+import json
+import os
+import sys
 from collections import Counter
+from urllib.parse import urlencode, urlparse, urlunparse, parse_qs
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-j', '--json', action='store_true', help='write prossesed data in .json file')
@@ -46,7 +48,15 @@ class ParsingText:
     def top_requests(self):
         with open(self.logs, 'r') as logs:
             log = [log.split()[6] for log in logs.readlines()]
-            log = Counter(log).most_common(10)
+            new_log = []
+            for _ in log:
+                url = urlparse(_)
+                parsed_url = url.geturl()
+                parsed_url = parsed_url.replace(url.query, "")
+                parsed_url = parsed_url.replace("?", "")
+                new_log.append(parsed_url)
+                # list(map(lambda x: x.replace(_, parsed_url), log))
+            log = Counter(new_log).most_common(10)
         if args.json:
             with open(os.path.join(self.dir_path, 'results_top_requests.json'), 'a') as json_file:
                 json.dump({'Top_ten_requests': [f'{text[0]}: {text[1]}' for text in log]}, json_file, indent=4,

@@ -17,7 +17,7 @@ awk '{print $6}' "$LOG_FILE" | tr -dc '[:alnum:]\n\r' | sort | uniq -c | sort -n
 printf '%.s─' $(seq 1 $(tput cols)) >> "$RESULT"
 
 echo -e "\n${bold}Top 10 requests:${normal}" >> "$RESULT"
-awk '{print $7}' "$LOG_FILE" | sort | uniq -c | sort -rn | \
+awk '{sub(/\?.*/,"", $7); print $7}' "$LOG_FILE" | sort | uniq -c | sort -rn | \
 head | awk '{print NR,"\b. URL:", $2,"\n   Requests:", $1}'>> "$RESULT"
 printf '%.s─' $(seq 1 $(tput cols)) >> "$RESULT"
 
