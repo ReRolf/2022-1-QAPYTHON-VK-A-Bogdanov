@@ -16,15 +16,15 @@ def get_requests_amount(log_path):
 
 def get_requests_type(log_path):
     with open(log_path, 'r') as logs:
-        log = [_.split()[5][1:] for _ in logs.readlines()]
+        log = [_.split()[4][1:] for _ in logs.readlines()]
         log = Counter(log).most_common()
     return log
 
 
-def get_requests_top(log_path):
+def get_requests_top(log_path, top):
     with open(log_path, 'r') as logs:
         log = [quote_plus(_.split()[6]) for _ in logs.readlines()]
-        log = Counter(log).most_common(10)
+        log = Counter(log).most_common(top)
     return log
 
 
@@ -37,8 +37,8 @@ def get_requests_400(log_path):
     return log[:5]
 
 
-def get_requests_500(log_path):
+def get_requests_500(log_path, user):
     with open(log_path, 'r') as logs:
         log = [_.split()[0] for _ in logs.readlines() if fnmatch(_.split()[8], '5??')]
-        log = Counter(log).most_common(5)
+        log = Counter(log).most_common(user)
     return log
