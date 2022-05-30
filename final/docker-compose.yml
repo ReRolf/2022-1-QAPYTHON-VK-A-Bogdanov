@@ -1,0 +1,68 @@
+version: '2.1'
+
+services:
+  mysql:
+    image: "mysql:latest"
+    container_name: "mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+    networks:
+      apptest: null
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./configs/mysql/:/docker-entrypoint-initdb.d/:Z"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "-uroot", "-ppass", "ping", "-h", "127.0.0.1"]
+      timeout: 5s
+      retries: 10
+
+  mock:
+    image: "vk_api:latest"
+    container_name: "vk_api"
+    environment:
+      MOCK_HOST: 0.0.0.0
+      MOCK_PORT: 9000
+    networks:
+      apptest: null
+    ports:
+      - "9000:9000"
+    healthcheck:
+      test: ["CMD", "curl", "127.0.0.1:9000"]
+      timeout: 5s
+      retries: 2
+
+  app:
+    image: "myapp:latest"
+    container_name: "app"
+    ports:
+      - "9999:9999"
+    networks:
+      apptest: null
+    command:
+      - "./myapp"
+      - "--config=/configs"
+    volumes:
+      - "./configs/app/myapp.conf:/configs:Z"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mock:
+        condition: service_healthy
+
+  selenoid:
+    networks:
+      apptest: null
+    container_name: "selenoid"
+    image: aerokube/selenoid:latest-release
+    volumes:
+      - "/home/rolf/.aerokube/selenoid/browsers.json:/etc/selenoid/browsers.json:Z"
+      - "/var/run/docker.sock:/var/run/docker.sock:Z"
+    command: [ "-conf", "/etc/selenoid/browsers.json", "-service-startup-timeout", "1m", "-container-network", "apptest"]
+    ports:
+      - "4444:4444"
+
+networks:
+  apptest:
+    external:
+      name: apptest
